@@ -1,0 +1,364 @@
+﻿* overwriting existing file
+* file to be indexed does not exist
+
+
+1. Too many arguments in input:
+cmd input: index out.txt testdir1 testdir2
+Expected Output: Incorrect Number of Arguments
+                           USAGE: index <output file><input file/directory>
+        Actual Output: Incorrect Number of Arguments
+                                     USAGE: index <output file><input file/directory>
+   1. Too few arguments in input:
+cmd input: index out.txt
+Expected Output: Incorrect Number of Arguments
+                           USAGE: index <output file><input file/directory>
+        Actual Output: Incorrect Number of Arguments
+                                     USAGE: index <output file><input file/directory>
+      1. Input to be indexed is not a file or directory:
+        cmd input: index out.txt terminal
+        Expected Output: “File Not Found: terminal”
+        Actual Output: “File Not Found: terminal”
+      1. File/Directory to be indexed does not exist:
+cmd input: index out.txt foo
+Expected Output: “File Not Found: foo”
+Actual Output: “File Not Found: foo”
+
+
+File Name
+	File Content
+	test1
+	Some are born great, some achieve greatness, and some have greatness thrust upon them.
+	test2
+	Love all, trust a few, do wrong to none.
+	test3
+	Hell is empty and all the devils are here.
+	test4
+	hello hello hello hello hello hello hello hello hello...(hello is listed a thousand times)
+	test5
+	“Hello World” is listed a 10,000  times
+	         1. Normal Case: Index a file
+        cmd input: index out test1
+        Expected Output:  
+<list> achieve
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> and
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> are
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> born
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> great
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> greatness
+/.autofs/ilab/ilab_users/vshah1/Code/test1 2
+</list>
+
+
+<list> have
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> some
+/.autofs/ilab/ilab_users/vshah1/Code/test1 3
+</list>
+
+
+<list> them
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> thrust
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+<list> upon
+/.autofs/ilab/ilab_users/vshah1/Code/test1 1
+</list>
+
+
+                Actual Output: Replica of Expected Output
+
+
+         1. Normal Case: Index a directory (test_dir1 which contains test1, test2)
+        cmd input: index out test_dir1
+Expected Output: 
+<list> a
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> achieve
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> all
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> and
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> are
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> born
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> do
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> few
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> great
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> greatness
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 2
+</list>
+
+
+<list> have
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> love
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> none
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> some
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 3
+</list>
+
+
+<list> them
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> thrust
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> to
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> trust
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+<list> upon
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test1 1
+</list>
+
+
+<list> wrong
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir/test2 1
+</list>
+
+
+Actual Output: Replica of Expected Output
+        
+         1. Scalability of the heap - indexing a file containing a high-frequency word
+        cmd input: index out test4
+        Expected Output: 
+        <list> hello
+/.autofs/ilab/ilab_users/vshah1/Code/test4 1000
+</list>
+Actual Output: Replica of Expected Output
+
+
+         1. Scalability of the heap - indexing a directory containing files with high-frequency words (test_dir2 contains test4 and test5)
+        cmd input: index out test_dir2
+        Expected Output: 
+<list> hello
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir2/test4 1000 /.autofs/ilab/ilab_users/vshah1/Code/test_dir2/test5 10000
+</list>
+
+
+<list> world
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir2/test5 10000
+</list>
+        Actual Output: Replica of Expected Output
+
+
+         1. Scalability of the hash table - Indexing several documents (test_dir3 contains test1, test2, test3, test4, test_dir1) with high-frequency word (also testing directories within directories)
+        cmd input: index out test_3
+        Expected Output:
+<list> a
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> achieve
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> all
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> and
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> are
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> born
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> devils
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1
+</list>
+
+
+<list> do
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> empty
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1
+</list>
+
+
+<list> few
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> great
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> greatness
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 2 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 2
+</list>
+
+
+<list> have
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> hell
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1
+</list>
+
+
+<list> hello
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test4 1000
+</list>
+
+
+<list> here
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1
+</list>
+
+
+<list> is
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1
+</list>
+
+
+<list> love
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> none
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> some
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 3 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 3
+</list>
+
+
+<list> the
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test3 1
+</list>
+
+
+<list> them
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> thrust
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> to
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> trust
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+
+
+<list> upon
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test1 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test1 1
+</list>
+
+
+<list> wrong
+/.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test2 1 /.autofs/ilab/ilab_users/vshah1/Code/test_dir3/test_dir/test2 1
+</list>
+Actual Output: Replica of Expected Output
